@@ -168,6 +168,25 @@ Question.objects.all()
 q = Question(question_text="¿Cuál es tu lenguaje de programación favorito?", pub_date=timezone.now())
 q.save()
 ```
+---
+Se puede añadir rutas que permitan capturar elementos desde las urls para ser pasadas a traves de request a una funcion de views y asi poder interactuar entre el usuario y la BBDD, permitiendo hacer una respuesta específica para cualquier elemento de la BBDD.
+
+```# ex: /polls/5/results/
+    path("<int:question_id>/results/", views.results, name="results")```
+
+
+podemos añadir un fragmento de código a un archivo html para poder usar este archivo en vez de HttpResponse, usando generalmente la funcion render:
+
+fragmento de codigo para recorrer con un ciclo for los elementos:
+```{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+        <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}```
 
 ---
 
