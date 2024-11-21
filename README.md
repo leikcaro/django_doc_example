@@ -165,6 +165,7 @@ Question.objects.all()
 # Resultado esperado (vacío inicialmente): <QuerySet []>
 
 # Crear un nuevo objeto
+```python
 q = Question(question_text="¿Cuál es tu lenguaje de programación favorito?", pub_date=timezone.now())
 q.save()
 ```
@@ -178,7 +179,8 @@ Se puede añadir rutas que permitan capturar elementos desde las urls para ser p
 podemos añadir un fragmento de código a un archivo html para poder usar este archivo en vez de HttpResponse, usando generalmente la funcion render:
 
 fragmento de codigo para recorrer con un ciclo for los elementos:
-```{% if latest_question_list %}
+```python
+{% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
         <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
@@ -188,6 +190,21 @@ fragmento de codigo para recorrer con un ciclo for los elementos:
     <p>No polls are available.</p>
 {% endif %}```
 
+
+en views de polls vamos a crear un renderizado usando la funcion render:
+
+```python
+from django.shortcuts import render
+
+from .models import Question
+
+
+def index(request):
+    latest_question_list = Question.objects.order_by("-pub_date")[:5]
+    context = {"latest_question_list": latest_question_list}
+    return render(request, "polls/index.html", context)
+```
+La funcion render recibe el request, la ubicacion del html a renderizar y un diccionario que trae elementos como objetos de la BBDD u otros elementos que sirvan para complementar el HTML al HTML.
 ---
 
 Este archivo se actualizará a medida que avancemos en el tutorial.
